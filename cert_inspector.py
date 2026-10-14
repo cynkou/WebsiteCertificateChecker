@@ -1,0 +1,31 @@
+import socket
+import ssl
+
+
+PORT = 443
+
+def get_certificate(host, port):
+    context = ssl.create_default_context()
+    with socket.create_connection((host, port)) as sock:
+        with context.wrap_socket(sock, server_hostname = host) as ssock:
+            cert = ssock.getpeercert()
+    
+    print(f"Certificate for {host}:")
+    print(f"Subject: {cert.get('subject')}")
+    print(f"Issuer: {cert.get('issuer')}")
+    print(f"Experation date: {cert.get('notAfter')}")
+
+def main():
+    host = input("Enter a host name (ex. google.com): ").strip()
+
+    if not host:
+        print("Input cannot be empty")
+        return
+
+    get_certificate(host, PORT)
+
+
+if __name__ == "__main__":
+    main()
+
+
