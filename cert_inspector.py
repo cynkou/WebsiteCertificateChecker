@@ -15,8 +15,8 @@ def get_certificate(host, port):
     issuer_organization_name = next(
         value
         for group in issuer
-        for key, value in group
-        if key == "organizationName"
+            for key, value in group
+                if key == "organizationName"
     ),
     "Not found"
     
