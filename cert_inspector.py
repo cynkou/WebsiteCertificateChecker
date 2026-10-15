@@ -10,8 +10,8 @@ def get_certificate(host, port):
         with context.wrap_socket(sock, server_hostname = host) as ssock:
             cert = ssock.getpeercert()
 
-    issuer = cert.get("issuer",())
-    subject = cert.get("subject",())
+    issuer = cert.get("issuer")
+    subject = cert.get("subject")
 
     issuer_organization_name = next(
         value
