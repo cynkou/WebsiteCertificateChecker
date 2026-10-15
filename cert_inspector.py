@@ -11,6 +11,7 @@ def get_certificate(host, port):
             cert = ssock.getpeercert()
 
     issuer = cert.get("issuer",())
+    subject = cert.get("subject",())
 
     issuer_organization_name = next(
         value
@@ -19,9 +20,17 @@ def get_certificate(host, port):
                 if key == "organizationName"
     ),
     "Not found"
+
+    subject_common_name = next(
+        value
+        for group in subject
+            for key, value in group
+                if key == "commonName"
+    ),
+    "Not found"
     
     print(f"Certificate for {host}:")
-    print(f"Subject: {cert.get('subject')}")
+    print(f"Subject: {subject_common_name}")
     print(f"Issuer: {issuer_organization_name}")
     print(f"Experation date: {cert.get('notAfter')}")
 
