@@ -9,11 +9,22 @@ def get_certificate(host, port):
     with socket.create_connection((host, port)) as sock:
         with context.wrap_socket(sock, server_hostname = host) as ssock:
             cert = ssock.getpeercert()
+
+    issuer = cert.get("issuer",())
+
+    issuer_organization_name = next(
+        value
+        for group in issuer
+        for key, value in group
+        if key == "organizationName"
+    ),
+    "Not found"
     
     print(f"Certificate for {host}:")
     print(f"Subject: {cert.get('subject')}")
-    print(f"Issuer: {cert.get('issuer')}")
+    print(f"Issuer: {issuer_organization_name}")
     print(f"Experation date: {cert.get('notAfter')}")
+
 
 def main():
     host = input("Enter a host name (ex. google.com): ").strip()
