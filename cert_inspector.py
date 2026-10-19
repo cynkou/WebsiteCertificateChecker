@@ -4,6 +4,9 @@ import ssl
 
 PORT = 443
 
+def strip_outer_parentheses(my_tuple):
+    return str(my_tuple)[1:-1]
+
 def get_certificate(host, port):
     context = ssl.create_default_context()
     with socket.create_connection((host, port)) as sock:
@@ -29,11 +32,10 @@ def get_certificate(host, port):
     ),
     "Not found"
     
-    print(f"Certificate for {host}:")
-    print(f"Subject: {subject_common_name}")
-    print(f"Issuer: {issuer_organization_name}")
+    print(f"Certificate for: {host}")
+    print(f"Name of Website: {strip_outer_parentheses(subject_common_name)}")
+    print(f"Issuer of Certificate: {strip_outer_parentheses(issuer_organization_name)}")
     print(f"Experation date: {cert.get('notAfter')}")
-
 
 def main():
     host = input("Enter a host name (ex. google.com): ").strip()
