@@ -13,6 +13,20 @@ A Python-based TLS certificate inspection tool that connects to a website over H
 - Uses a five-second connection timeout.
 - Handles missing issuer and subject attributes with fallback values.
 
+## Environment
+
+Python Version: 3.15
+
+## Running the Program
+
+Activate the virtual environment:
+
+.venv\Scripts\activate.bat
+
+Run the certificate inspector:
+
+python tls_checker.py
+
 ## Project Goals
 
 This project will eventually expand to include:
