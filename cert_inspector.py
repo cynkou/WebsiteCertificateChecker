@@ -6,7 +6,7 @@ PORT = 443
 
 def get_certificate(host, port):
     context = ssl.create_default_context()
-    with socket.create_connection((host, port)) as sock:
+    with socket.create_connection((host, port), timeout = 5) as sock:
         with context.wrap_socket(sock, server_hostname = host) as ssock:
             cert = ssock.getpeercert()
 
@@ -14,20 +14,25 @@ def get_certificate(host, port):
     subject = cert.get("subject")
 
     issuer_organization_name = next(
-        value
-        for group in issuer
-            for key, value in group
-                if key == "organizationName"
-    ),
-    "Not found"
+        (
+            value
+            for group in issuer
+                for key, value in group
+                    if key == "organizationName"
+        ),
+        "Not found"
+    )
 
     subject_common_name = next(
-        value
-        for group in subject
-            for key, value in group
-                if key == "commonName"
-    ),
-    "Not found"
+        (
+            value
+            for group in subject
+                for key, value in group
+                    if key == "commonName"
+        ),
+        "Not found"
+    )
+
     
     print(f"Certificate for {host}:")
     print(f"Subject: {subject_common_name}")
