@@ -25,7 +25,7 @@ Activate the virtual environment:
 
 Run the certificate inspector:
 
-python tls_checker.py
+python cert_inspector.py
 
 ## Project Goals
 
